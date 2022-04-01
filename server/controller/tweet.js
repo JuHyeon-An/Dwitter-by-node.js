@@ -1,14 +1,16 @@
-import * as tweetFunctions from "./data/tweet.js";
+import * as tweetFunctions from "../data/tweet.js";
 
-export function getTweets(req, res) {
+export async function getTweets(req, res) {
   const username = req.query.username;
-  const result = username ? tweetFunctions.getByUsername(username) : tweetFunctions.getAll();
+  const result = await (username
+    ? tweetFunctions.getByUsername(username)
+    : tweetFunctions.getAll());
   res.status(200).json(result);
 }
 
-export function getTweet(req, res) {
+export async function getTweet(req, res) {
   const tweetId = req.params.id;
-  const result = tweetFunctions.getById(tweetId);
+  const result = await tweetFunctions.getById(tweetId);
 
   if (result) {
     res.status(200).json(result);
@@ -18,16 +20,16 @@ export function getTweet(req, res) {
   }
 }
 
-export function createTweet(req, res) {
+export async function createTweet(req, res) {
   const { text, name, username } = req.body;
-  const tweet = tweetFunctions.create(text, name, username);
+  const tweet = await tweetFunctions.create(text, name, username);
   res.status(201).json(tweet);
 }
 
-export function updateTweet(req, res) {
+export async function updateTweet(req, res) {
   const text = req.body.text;
   const tweetId = req.params.id;
-  const tweet = tweetFunctions.update(tweetId, text);
+  const tweet = await tweetFunctions.update(tweetId, text);
   if (tweet) {
     res.status(200).json(tweet);
   } else {
@@ -35,8 +37,8 @@ export function updateTweet(req, res) {
   }
 }
 
-export function deleteTweet(req, res) {
+export async function deleteTweet(req, res) {
   const tweetId = req.params.id;
-  tweetFunctions.remove(tweetId);
+  await tweetFunctions.remove(tweetId);
   res.sendStatus(204);
 }
