@@ -39,3 +39,8 @@ export function login(userInfo) {
   const user = users.find((user) => user.username == username);
   return user;
 }
+
+export function findByUsername(username) {
+  users.find((user) => (user.username = username));
+  return user;
+}
