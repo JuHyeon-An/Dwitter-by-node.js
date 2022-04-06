@@ -7,40 +7,17 @@ let users = [
     text: "new Tweet",
     name: "Jennifer",
     email: "jennifer@mail.com",
+    url: "",
   },
 ];
 
-export function signup(userInfo) {
-  const { username, password, text, name, email } = userInfo;
-  // 패스워드 암호화?
-  const token = jwt.sign(
-    {
-      username: username,
-      password: password,
-      isAmdin: false,
-    },
-    "asdf"
-  );
+export async function createUser(user) {
+  const created = { ...user, id: Date.now().toString() + "user.username" };
+  users.push(created);
 
-  const user = {
-    username,
-    password,
-    text,
-    name,
-    email,
-  };
-
-  users = [user, ...users];
-  return user;
-}
-
-export function login(userInfo) {
-  const { username, password } = userInfo;
-  const user = users.find((user) => user.username == username);
-  return user;
+  return created.id;
 }
 
 export function findByUsername(username) {
-  users.find((user) => (user.username = username));
-  return user;
+  return !!users.find((user) => user.username === username);
 }
