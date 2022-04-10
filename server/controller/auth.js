@@ -11,12 +11,12 @@ const bcryptSaltRounds = 10;
 export async function signupUser(req, res) {
   const { username, password, name, email, url } = req.body;
   const found = await userFunctions.findByUsername(username);
-  console.log(`found : ${found}`);
+
   if (found) {
     return res.status(409).json({ message: `${username} already exists` });
   }
-  const hased = await bcrypt.hash(password, bcryptSaltRounds);
-  const userId = userFunctions.createUser({
+  const hashed = await bcrypt.hash(password, bcryptSaltRounds);
+  const userId = await userFunctions.createUser({
     username,
     password: hashed,
     name,
@@ -30,7 +30,7 @@ export async function signupUser(req, res) {
 }
 
 export async function login(req, res) {
-  const { usernname, password } = req.body;
+  const { username, password } = req.body;
   const user = await userFunctions.findByUsername(username);
   if (!user) {
     // 보안상 user, password 구분하지 않고 Invalid message 띄워줌

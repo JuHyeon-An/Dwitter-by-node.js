@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 let users = [
   {
     username: "user1",
-    password: "asdf",
+    password: "$2b$10$kduLbJCQYW3cELHmc.XOzOFVw9NCcG9Xx9Pcq2C4UswxWEDiaGM/6",
     text: "new Tweet",
     name: "Jennifer",
     email: "jennifer@mail.com",
@@ -18,6 +18,10 @@ export async function createUser(user) {
   return created.id;
 }
 
-export function findByUsername(username) {
-  return !!users.find((user) => user.username === username);
+export async function findByUsername(username) {
+  return users.find((user) => user.username === username);
+}
+
+export async function findById(id) {
+  return users.find((id) => user.id === id);
 }
