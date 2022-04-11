@@ -4,12 +4,13 @@ import * as userFunctions from "../data/auth.js";
 const AUTH_ERROR = { message: "Authentication Error" };
 
 export const isAuth = async (req, res, next) => {
-  const authHeader = req.get("Authorizatino");
+  const authHeader = req.get("Authorization");
   if (!(authHeader && authHeader.startsWith("Bearer "))) {
     return res.status(401).json(AUTH_ERROR);
   }
 
   const token = authHeader.split(" ")[1];
+
   // TODO: Make it secure!
   jwt.verify(token, "qm&jhwU8WFeV", async (error, decoded) => {
     if (error) {
@@ -19,7 +20,7 @@ export const isAuth = async (req, res, next) => {
     if (!user) {
       return res.status(401).json(AUTH_ERROR);
     }
-    req.userId = user.id;
+    req.userId = user.id; //req.customData 등록
     next();
   });
 };

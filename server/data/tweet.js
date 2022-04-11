@@ -1,24 +1,27 @@
+import * as userData from "./auth.js";
+
 let tweets = [
   {
     id: "1", // 트윗 아이디
     text: "my first tweet", // 트윗 텍스트
-    createdAt: Date.now().toString(), // 트윗 생성 날짜
-    name: "Ellen", // 사용자 이름
-    username: "Ellen123", // 사용자 닉네임 (아이디)
-    url: "https://cdn-icons.flaticon.com/png/512/3153/premium/3153346.png?token=exp=1648391233~hmac=3b53e948140a21acf9bd0fc7cd52086f", // 사용자 프로파일 사진 URL }];
+    createdAt: new Date().toString(), // 트윗 생성 날짜
+    userId: "1",
   },
   {
     id: "2", // 트윗 아이디
     text: "my second tweet", // 트윗 텍스트
     createdAt: Date.now().toString(), // 트윗 생성 날짜
-    name: "Jennifer", // 사용자 이름
-    username: "Jennifer123", // 사용자 닉네임 (아이디)
-    url: "https://cdn-icons.flaticon.com/png/512/3153/premium/3153346.png?token=exp=1648391233~hmac=3b53e948140a21acf9bd0fc7cd52086f", // 사용자 프로파일 사진 URL }];
+    userId: "1",
   },
 ];
 
 export async function getAll() {
-  return tweets;
+  return Promise.all(
+    tweets.map(async (tweet) => {
+      const { username, name, url } = await userData.findById(tweet.userId);
+      return { ...tweet, username, name, url };
+    })
+  );
 }
 
 export async function getByUsername(username) {
