@@ -19,29 +19,39 @@ export async function getAll() {
   return Promise.all(
     tweets.map(async (tweet) => {
       const { username, name, url } = await userData.findById(tweet.userId);
+      // 기존 트윗에 id를 통해 찾은 user정보 추가
       return { ...tweet, username, name, url };
     })
   );
 }
 
 export async function getByUsername(username) {
-  return tweets.filter((tweet) => tweet.username == username);
+  return getAll().then((tweets) => {
+    tweets.filter((tweet) => tweet.username === username);
+  });
 }
 
 export async function getById(tweetId) {
-  return tweets.find((tweet) => tweet.id == tweetId);
+  const found = tweets.find((tweet) => tweet.id === id);
+  if (!found) {
+    return null;
+  }
+  const { username, name, url } = await userData.findById(found.userId);
+  return { ...found, username, name, url };
+
+  //return tweets.find((tweet) => tweet.id == tweetId);
 }
 
-export async function create(text, name, username) {
+export async function create(text, userId) {
   const tweet = {
     id: Date.now().toString(),
     text,
     createdAt: new Date(),
-    name,
-    username,
+    userId,
   };
+
   tweets = [tweet, ...tweets];
-  return tweet;
+  return getById(tweet.id);
 }
 
 export async function update(tweetId, text) {
