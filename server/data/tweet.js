@@ -27,6 +27,7 @@ export async function getAll() {
 
 export async function getByUsername(username) {
   return getAll().then((tweets) => {
+    console.log(tweets);
     tweets.filter((tweet) => tweet.username === username);
   });
 }
@@ -41,8 +42,6 @@ export async function getById(tweetId) {
 
   const { username, name, url } = await userData.findById(found.userId);
   return { ...found, username, name, url };
-
-  //return tweets.find((tweet) => tweet.id == tweetId);
 }
 
 export async function create(text, userId) {
