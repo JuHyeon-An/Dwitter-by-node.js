@@ -2,9 +2,9 @@ import jwt from "jsonwebtoken";
 
 let users = [
   {
+    id: "1",
     username: "user1",
     password: "$2b$10$kduLbJCQYW3cELHmc.XOzOFVw9NCcG9Xx9Pcq2C4UswxWEDiaGM/6",
-    text: "new Tweet",
     name: "Jennifer",
     email: "jennifer@mail.com",
     url: "",
@@ -12,8 +12,10 @@ let users = [
 ];
 
 export async function createUser(user) {
-  const created = { ...user, id: Date.now().toString() + "user.username" };
+  const created = { ...user, id: Date.now().toString() + user.username };
   users.push(created);
+
+  console.log(`created Id : ${created.id}`);
 
   return created.id;
 }

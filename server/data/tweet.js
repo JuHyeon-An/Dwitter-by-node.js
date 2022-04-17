@@ -32,10 +32,13 @@ export async function getByUsername(username) {
 }
 
 export async function getById(tweetId) {
-  const found = tweets.find((tweet) => tweet.id === id);
+  const found = tweets.find((tweet) => tweet.id === tweetId);
   if (!found) {
     return null;
   }
+
+  console.log(userData.findById(found.userId));
+
   const { username, name, url } = await userData.findById(found.userId);
   return { ...found, username, name, url };
 
