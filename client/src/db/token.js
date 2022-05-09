@@ -1,4 +1,4 @@
-const TOKEN = "token";
+const TOKEN = 'token';
 
 export default class TokenStorage {
   saveToken(token) {
@@ -10,6 +10,6 @@ export default class TokenStorage {
   }
 
   clearToken() {
-    localStorage.removeItem(TOKEN);
+    localStorage.clear(TOKEN);
   }
 }

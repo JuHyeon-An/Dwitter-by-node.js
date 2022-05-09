@@ -4,33 +4,9 @@ export default class AuthService {
     this.tokenStorage = tokenStorage;
   }
 
-  async login(username, password) {
-    const data = await this.http.fetch("/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-    });
-    console.log("login frontend 통과");
-    this.tokenStorage.saveToken(data.token);
-    console.log(data);
-    return data;
-  }
-
-  async me() {
-    const token = this.tokenStorage.getToken();
-    console.log(`token at me : ${token}`);
-    return this.http.fetch("/auth/me", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  }
-
-  async logout() {
-    this.tokenStorage.clearToken();
-  }
-
   async signup(username, password, name, email, url) {
-    const data = await this.http.fetch("/auth/signup", {
-      method: "POST",
+    const data = await this.http.fetch('/auth/signup', {
+      method: 'POST',
       body: JSON.stringify({
         username,
         password,
@@ -41,5 +17,26 @@ export default class AuthService {
     });
     this.tokenStorage.saveToken(data.token);
     return data;
+  }
+
+  async login(username, password) {
+    const data = await this.http.fetch('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    });
+    this.tokenStorage.saveToken(data.token);
+    return data;
+  }
+
+  async me() {
+    const token = this.tokenStorage.getToken();
+    return this.http.fetch('/auth/me', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
+  async logout() {
+    this.tokenStorage.clearToken();
   }
 }
