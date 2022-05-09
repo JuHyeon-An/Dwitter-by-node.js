@@ -27,7 +27,6 @@ export async function getAll() {
 
 export async function getByUsername(username) {
   return getAll().then((tweets) => {
-    console.log(tweets);
     tweets.filter((tweet) => tweet.username === username);
   });
 }
@@ -37,8 +36,6 @@ export async function getById(tweetId) {
   if (!found) {
     return null;
   }
-
-  console.log(userData.findById(found.userId));
 
   const { username, name, url } = await userData.findById(found.userId);
   return { ...found, username, name, url };
@@ -57,12 +54,11 @@ export async function create(text, userId) {
 }
 
 export async function update(tweetId, text) {
-  const index = tweets.findIndex((tweet) => tweet.id == tweetId);
-  // tweet = tweets.find((tweet) => tweet.id == tweetId)
-  if (tweets[index]) {
-    tweets[index].text = text;
+  const tweet = tweets.find((tweet) => tweet.id === tweetId);
+  if (tweet) {
+    tweet.text = text;
   }
-  return tweets[index];
+  return getById(tweet.id);
 }
 
 export async function remove(tweetId) {

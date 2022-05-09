@@ -15,7 +15,7 @@ export async function getTweet(req, res) {
     res.status(200).json(result);
     console.log(result);
   } else {
-    res.status(404).json({ message: `Tweet id(${params.id}) not found` });
+    res.status(404).json({ message: `Tweet id(${tweetId}) not found` });
   }
 }
 
@@ -25,15 +25,18 @@ export async function createTweet(req, res) {
   res.status(201).json(tweet);
 }
 
-export async function updateTweet(req, res) {
+export async function updateTweet(req, res, next) {
   const text = req.body.text;
   const tweetId = req.params.id;
-  const tweet = await tweetData.update(tweetId, text);
-  if (tweet) {
-    res.status(200).json(tweet);
-  } else {
-    res.status(404).json({ message: `Tweet id(${params.id}) not found` });
+  const tweet = await tweetData.getById(tweetId);
+  if (!tweet) {
+    return res.status(404).json({ message: `Tweet not found: ${tweetId}` });
   }
+  if (tweet.userId !== req.userId) {
+    return res.sendStatus(403);
+  }
+  const updated = await tweetData.update(tweetId, text);
+  res.status(200).json(updated);
 }
 
 export async function deleteTweet(req, res) {
