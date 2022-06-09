@@ -20,15 +20,14 @@ export async function getAll() {
     tweets.map(async (tweet) => {
       const { username, name, url } = await userData.findById(tweet.userId);
       // 기존 트윗에 id를 통해 찾은 user정보 추가
+
       return { ...tweet, username, name, url };
     })
   );
 }
 
 export async function getByUsername(username) {
-  return getAll().then((tweets) => {
-    tweets.filter((tweet) => tweet.username === username);
-  });
+  return getAll().then((tweets) => tweets.filter((tweet) => tweet.username === username));
 }
 
 export async function getById(tweetId) {
