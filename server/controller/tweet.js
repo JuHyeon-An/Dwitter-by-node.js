@@ -36,11 +36,19 @@ export async function updateTweet(req, res, next) {
     return res.sendStatus(403);
   }
   const updated = await tweetData.update(tweetId, text);
+  // 업데이트 된 트윗을 전달
   res.status(200).json(updated);
 }
 
 export async function deleteTweet(req, res) {
   const tweetId = req.params.id;
+  const tweet = await tweetData.getById(tweetId);
+  if (!tweet) {
+    return res.status(404).json({ message: `Tweet not found: ${tweetId}` });
+  }
+  if (tweet.userId !== req.userId) {
+    return res.sendStatus(403);
+  }
   await tweetData.remove(tweetId);
   res.sendStatus(204);
 }
