@@ -5,6 +5,10 @@ import helmet from "helmet";
 import "express-async-errors";
 import tweetRouter from "./routes/tweets.js";
 import authRouter from "./routes/auth.js";
+import dotenv from "dotenv";
+dotenv.config();
+
+console.log(process.env);
 
 const app = express();
 
