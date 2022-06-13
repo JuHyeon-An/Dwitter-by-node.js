@@ -1,5 +1,3 @@
-import jwt from "jsonwebtoken";
-
 let users = [
   {
     id: "1",
@@ -7,6 +5,14 @@ let users = [
     password: "$2b$10$kduLbJCQYW3cELHmc.XOzOFVw9NCcG9Xx9Pcq2C4UswxWEDiaGM/6",
     name: "Jennifer",
     email: "jennifer@mail.com",
+    url: "",
+  },
+  {
+    id: "2",
+    username: "user2",
+    password: "$2b$10$kduLbJCQYW3cELHmc.XOzOFVw9NCcG9Xx9Pcq2C4UswxWEDiaGM/6",
+    name: "juhyeon",
+    email: "juhyeon@mail.com",
     url: "",
   },
 ];
