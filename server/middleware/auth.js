@@ -14,7 +14,6 @@ export const isAuth = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
   console.log(`token : ${token}`);
 
-  // TODO: Make it secure!
   jwt.verify(token, config.jwt.jwtSecretKey, async (error, decoded) => {
     if (error) {
       console.log(`failed to veryfy token`);
@@ -26,7 +25,7 @@ export const isAuth = async (req, res, next) => {
       return res.status(401).json(AUTH_ERROR);
     }
     req.userId = user.id; //req.customData 등록
-    req.token = token;
+    //req.token = token;
     next();
   });
 };
