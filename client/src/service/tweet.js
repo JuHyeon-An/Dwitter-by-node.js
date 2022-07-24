@@ -46,5 +46,6 @@ export default class TweetService {
 
   onSync(callback) {
     return this.socket.onSync("tweets", callback);
+    // onSync에 callback을 연결
   }
 }
