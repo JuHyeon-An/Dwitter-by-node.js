@@ -1,3 +1,6 @@
+import { db } from "../db/database.js";
+
+/*
 let users = [
   {
     id: "1",
@@ -16,18 +19,33 @@ let users = [
     url: "",
   },
 ];
+*/
 
 export async function createUser(user) {
-  const created = { ...user, id: Date.now().toString() + user.username };
-  users.push(created);
+  const { username, password, name, email, url } = user;
 
-  return created.id;
+  return db
+    .execute("INSERT INTO users (username, password, name, email, url) VALUES (?,?,?,?,?)", [
+      username,
+      password,
+      name,
+      email,
+      url,
+    ])
+    .then((result) => {
+      //console.log(result);
+      return result;
+    });
 }
 
 export async function findByUsername(username) {
-  return users.find((user) => user.username === username);
+  return db
+    .execute("SELECT * FROM users WHERE username = ?", [username])
+    .then((result) => result[0][0]);
+  //return users.find((user) => user.username === username);
 }
 
 export async function findById(id) {
-  return users.find((user) => user.id === id);
+  return db.execute("SELECT * FROM users WHERE id = ?", [id]).then((result) => result[0][0]);
+  //return users.find((user) => user.id === id);
 }
